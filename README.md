@@ -19,7 +19,7 @@ Make sure the name of your bot matches the name of the BOT_NAME in the count_bot
 
 # Usage
 
-If all the configuraton is done properly, you should be able to just run it with python3 `count_bot.py`
+If all the configuraton is done properly, you should be able to just run it with `python3 count_bot.py`
 
 It should send a message in the terminal and in the slack channel to let you know that it's working.  
 
