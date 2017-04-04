@@ -13,7 +13,7 @@ Install the slack client API package (`pip3 install slackclient`) or install the
 You will need a [custom bot](http://my.slack.com/apps/manage/custom-integrations) integration token for your Slack team.
 Once you have created the bot, invite it to the general channel.  If you want to use a different channel, you will have to modify the lines with "slack_client.api_call" to whatever channel you invited it to.
 
-Set that token as a local environment variable.
+Set that token as a local environment variable named `BOT_TOKEN`.
 
 Make sure the name of your bot matches the name of the BOT_NAME in the count_bot.py file
 
