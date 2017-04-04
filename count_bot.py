@@ -36,18 +36,18 @@ def get_bot_id(BOT_NAME):
         return None
 
 
-def findTop10():
+def find_top_10():
      """ find the top 10 words stored in the WORD_CACHE then print them in the channel """
      global WORD_CACHE
-     wordsArray = [[key, WORD_CACHE[key]] for key in sorted(WORD_CACHE, key=WORD_CACHE.get, reverse=True)]
+     words_array = [[key, WORD_CACHE[key]] for key in sorted(WORD_CACHE, key=WORD_CACHE.get, reverse=True)]
      message = "Here are the top 10 most common words used by the room in the last 5 minutes. \n\n"
-     for word in wordsArray[:10]:
+     for word in words_array[:10]:
           message = message + word[0].upper() + ": used " + str(word[1]) + " times. \n "
      slack_client.api_call("chat.postMessage", channel='general',text=message, as_user=True)
 
      WORD_CACHE = {}
 
-def wordCounter(chat_input):
+def word_counter(chat_input):
      """take all the words used by everyone not including this bot and put them in a dictionary"""
      words = chat_input.split()
      for word in words:
@@ -63,19 +63,18 @@ def wordCounter(chat_input):
 def parse_slack_output(slack_rtm_output, BOT_ID, starttime):
      """
          The Slack Real Time Messaging API is an events firehose.
-         this parsing function returns None unless a message is
-         directed at the Bot, based on its ID.
+         this will read the output and if it sees a message, and it's not from itself, it calls the word_counter function to store the words in the message
      """
      output_list = slack_rtm_output
      if output_list and len(output_list) > 0:
          for output in output_list:
              print(output)
              if output and 'text' in output and BOT_ID not in output['user']:
-                 #throw that text into the wordCounter
-                 wordCounter(output['text'])
-     # fire the top 10 every 5 min (300 seconds).  It's not EXACTLY 5 min, it's within a second because the start time and when it fires wont line up exactly.
+                 #throw that text into the word_counter
+                 word_counter(output['text'])
+     # call the top 10 function every 5 min (300 seconds).  It's not EXACTLY 5 min, it's within a second because the start time and when it fires wont line up exactly.
      if (300 -(time.time() - starttime) % 300.0) < 1:
-         findTop10()
+         find_top_10()
      return None
 
 if __name__ == "__main__":
